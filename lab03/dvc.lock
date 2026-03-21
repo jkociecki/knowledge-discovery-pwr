@@ -1,0 +1,95 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: 'uv run python scripts/preprocess.py --raw-dir data/raw --reviews-pattern
+      "reviews_*.csv" --products-filename product_info.csv --columns-to-drop "Unnamed:
+      0,author_id" --output-path data/preprocessed/preprocessed_reviews.csv'
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 81faee1525f3a1b2e7ea6e2affaf7673.dir
+      size: 528683011
+      nfiles: 6
+    - path: scripts/preprocess.py
+      hash: md5
+      md5: bdb1783c2a6cad1c8b409469fcb97999
+      size: 6279
+    params:
+      params.yaml:
+        preprocess:
+          raw_dir: data/raw
+          reviews_pattern: reviews_*.csv
+          products_filename: product_info.csv
+          columns_to_drop: 'Unnamed: 0,author_id'
+          output_path: data/preprocessed/preprocessed_reviews.csv
+    outs:
+    - path: data/preprocessed/preprocessed_reviews.csv
+      hash: md5
+      md5: 651783646dbdc3d37f82b1d25eec624a
+      size: 806381856
+  split:
+    cmd: uv run python scripts/train_test_split.py --reviews-path 
+      data/preprocessed/preprocessed_reviews.csv --train-path 
+      data/split/train_reviews.csv --test-path data/split/test_reviews.csv 
+      --test-size 0.2 --random-state 42 --stratify false
+    deps:
+    - path: data/preprocessed/preprocessed_reviews.csv
+      hash: md5
+      md5: 651783646dbdc3d37f82b1d25eec624a
+      size: 806381856
+    - path: scripts/train_test_split.py
+      hash: md5
+      md5: 54f2429eec2a99b045972a9e7be3133b
+      size: 2179
+    params:
+      params.yaml:
+        split:
+          reviews_path: data/preprocessed/preprocessed_reviews.csv
+          train_path: data/split/train_reviews.csv
+          test_path: data/split/test_reviews.csv
+          test_size: 0.2
+          random_state: 42
+          stratify: false
+    outs:
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: 41762778e727cb79c9d1de8569e4422f
+      size: 161139294
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: e537397f94892381531f6f08daae4841
+      size: 645243161
+  train_baseline:
+    cmd: uv run python scripts/train_dummy_baseline.py --train-path 
+      data/split/train_reviews.csv --test-path data/split/test_reviews.csv 
+      --metrics-path metrics/dummy_baseline_metrics.json --model-type 
+      uniform_continuous --model-strategy most_frequent --max-features 20000 
+      --ngram-max 2
+    deps:
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: 41762778e727cb79c9d1de8569e4422f
+      size: 161139294
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: e537397f94892381531f6f08daae4841
+      size: 645243161
+    - path: scripts/train_dummy_baseline.py
+      hash: md5
+      md5: 6bd22dee1b3010a0a73d02240681851d
+      size: 4397
+    params:
+      params.yaml:
+        train:
+          train_path: data/split/train_reviews.csv
+          test_path: data/split/test_reviews.csv
+          metrics_path: metrics/dummy_baseline_metrics.json
+          model_type: uniform_continuous
+          model_strategy: most_frequent
+          max_features: 20000
+          ngram_max: 2
+    outs:
+    - path: metrics/dummy_baseline_metrics.json
+      hash: md5
+      md5: d647cf56249bfb085ce521c62638434e
+      size: 276

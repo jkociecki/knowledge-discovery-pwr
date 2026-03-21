@@ -1,0 +1,15 @@
+[project]
+name = "summer-26-lab3-6-jkociecki"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dvc>=3.67.0",
+    "dvc-s3>=3.3.0",
+    "jupyterlab>=4.5.6",
+    "pandas>=3.0.1",
+    "polars>=1.39.3",
+    "scikit-learn>=1.8.0",
+    "typer>=0.24.1",
+]

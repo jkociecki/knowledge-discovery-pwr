@@ -1,0 +1,10 @@
+{
+  "model": "UniformContinuousSampler",
+  "model_type": "uniform_continuous",
+  "model_strategy": "most_frequent",
+  "f1_macro": 0.2960495995275992,
+  "f1_weighted": 0.36749075690672917,
+  "train_rows": 393667,
+  "test_rows": 98492,
+  "target_column": "LABEL-simple_rating"
+}

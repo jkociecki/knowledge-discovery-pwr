@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lab3-app
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    env_file:
+      - ./infra/.env
+    ports:
+      - "8888:8888"
+    environment:
+      AUTO_DVC_PULL: "1"
+      DVC_REMOTE_NAME: storage
+      DVC_REMOTE_URL: s3://pdiow
+      DVC_S3_ENDPOINT_URL: http://host.docker.internal:9000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - /bin/sh
+      - -lc
+      - >-
+        uv sync --frozen &&
+        uv run dvc remote add -d -f "$${DVC_REMOTE_NAME}" "$${DVC_REMOTE_URL}" &&
+        uv run dvc remote modify "$${DVC_REMOTE_NAME}" endpointurl "$${DVC_S3_ENDPOINT_URL}" &&
+        uv run dvc remote modify "$${DVC_REMOTE_NAME}" access_key_id "$${MINIO_ROOT_USER}" &&
+        uv run dvc remote modify "$${DVC_REMOTE_NAME}" secret_access_key "$${MINIO_ROOT_PASSWORD}" &&
+        git config user.name "jedrek" &&
+        git config user.email "jedrzej.kociecki@gmail.com" &&
+        uv run jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser --ServerApp.token='' --ServerApp.password=''
+      
+    tty: true
+    stdin_open: true

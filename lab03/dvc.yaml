@@ -1,0 +1,54 @@
+stages:
+  preprocess:
+    cmd: >-
+      uv run python scripts/preprocess.py
+      --raw-dir ${preprocess.raw_dir}
+      --reviews-pattern "${preprocess.reviews_pattern}"
+      --products-filename ${preprocess.products_filename}
+      --columns-to-drop "${preprocess.columns_to_drop}"
+      --output-path ${preprocess.output_path}
+    deps:
+      - scripts/preprocess.py
+      - ${preprocess.raw_dir}
+    params:
+      - preprocess
+    outs:
+      - ${preprocess.output_path}
+
+  split:
+    cmd: >-
+      uv run python scripts/train_test_split.py
+      --reviews-path ${split.reviews_path}
+      --train-path ${split.train_path}
+      --test-path ${split.test_path}
+      --test-size ${split.test_size}
+      --random-state ${split.random_state}
+      --stratify ${split.stratify}
+    deps:
+      - scripts/train_test_split.py
+      - ${split.reviews_path}
+    params:
+      - split
+    outs:
+      - ${split.train_path}
+      - ${split.test_path}
+
+  train_baseline:
+    cmd: >-
+      uv run python scripts/train_dummy_baseline.py
+      --train-path ${train.train_path}
+      --test-path ${train.test_path}
+      --metrics-path ${train.metrics_path}
+      --model-type ${train.model_type}
+      --model-strategy ${train.model_strategy}
+      --max-features ${train.max_features}
+      --ngram-max ${train.ngram_max}
+    deps:
+      - scripts/train_dummy_baseline.py
+      - ${train.train_path}
+      - ${train.test_path}
+    params:
+      - train
+    metrics:
+      - ${train.metrics_path}:
+          cache: false

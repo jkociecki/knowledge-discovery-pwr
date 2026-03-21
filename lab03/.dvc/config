@@ -1,0 +1,7 @@
+[core]
+    remote = storage
+['remote "storage"']
+    url = s3://pdiow
+    endpointurl = http://host.docker.internal:9000
+    access_key_id = admin
+    secret_access_key = adminadmin

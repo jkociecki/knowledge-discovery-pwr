@@ -1,0 +1,23 @@
+preprocess:
+  raw_dir: data/raw
+  reviews_pattern: reviews_*.csv
+  products_filename: product_info.csv
+  columns_to_drop: 'Unnamed: 0,author_id'
+  output_path: data/preprocessed/preprocessed_reviews.csv
+
+split:
+  reviews_path: data/preprocessed/preprocessed_reviews.csv
+  train_path: data/split/train_reviews.csv
+  test_path: data/split/test_reviews.csv
+  test_size: 0.2
+  random_state: 42
+  stratify: false
+
+train:
+  train_path: data/split/train_reviews.csv
+  test_path: data/split/test_reviews.csv
+  metrics_path: metrics/dummy_baseline_metrics.json
+  model_type: uniform_continuous
+  model_strategy: most_frequent
+  max_features: 20000
+  ngram_max: 2
