@@ -31,5 +31,5 @@ services:
         git config user.email "jedrzej.kociecki@gmail.com" &&
         uv run jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser --ServerApp.token='' --ServerApp.password=''
       
-    tty: true
-    stdin_open: true
+    tty: true  
+    stdin_open: true   

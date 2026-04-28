@@ -1,0 +1,27 @@
+columns_to_drop:
+  - "Unnamed: 0"
+  - author_id
+  - submission_time
+  - review_title
+  - value_price_usd
+  - variation_desc
+  - sale_price_usd
+  - primary_category
+  - submission_time
+  - child_max_price
+  - child_min_price
+  - product_id
+  - ingredients
+  - highlights
+  - variation_value
+  - helpfulness
+  - size
+
+fill_with_unknown:
+  - skin_tone
+  - eye_color
+  - skin_type
+  - hair_color
+  - size
+  - variation_type
+  - tertiary_category

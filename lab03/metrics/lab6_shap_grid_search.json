@@ -1,0 +1,6 @@
+{
+  "search_method": "grid_search",
+  "n_features": 23345,
+  "n_explained_samples": 500,
+  "n_misclassified_analyzed": 10
+}

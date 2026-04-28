@@ -1,0 +1,315 @@
+{
+  "search_method": "grid_search",
+  "classes": {
+    "1": {
+      "top_positive_features": [
+        {
+          "feature": "num__char_len",
+          "mean_shap": 0.03323224399437939
+        },
+        {
+          "feature": "cat__hair_color_brown",
+          "mean_shap": 0.009428360745563125
+        },
+        {
+          "feature": "cat__secondary_category_Treatments",
+          "mean_shap": 0.008386651815300808
+        },
+        {
+          "feature": "num__total_neg_feedback_count",
+          "mean_shap": 0.0076645675187087346
+        },
+        {
+          "feature": "cat__skin_type_combination",
+          "mean_shap": 0.006376715779083962
+        },
+        {
+          "feature": "text__love",
+          "mean_shap": 0.00542295662474744
+        },
+        {
+          "feature": "text__great",
+          "mean_shap": 0.004999861209305502
+        },
+        {
+          "feature": "cat__skin_tone_medium",
+          "mean_shap": 0.004378810593633765
+        },
+        {
+          "feature": "cat__eye_color_brown",
+          "mean_shap": 0.004312985902579862
+        },
+        {
+          "feature": "num__loves_count",
+          "mean_shap": 0.004054806337529972
+        }
+      ],
+      "top_negative_features": [
+        {
+          "feature": "num__word_len",
+          "mean_shap": -0.03314530559152121
+        },
+        {
+          "feature": "num__is_recommended",
+          "mean_shap": -0.018622394727994873
+        },
+        {
+          "feature": "cat__secondary_category_Moisturizers",
+          "mean_shap": -0.013366037144477524
+        },
+        {
+          "feature": "cat__hair_color_blonde",
+          "mean_shap": -0.013283326440226761
+        },
+        {
+          "feature": "num__rating",
+          "mean_shap": -0.011475666427473094
+        },
+        {
+          "feature": "cat__tertiary_category_Face Wash & Cleansers",
+          "mean_shap": -0.007735264834185735
+        },
+        {
+          "feature": "cat__skin_type_dry",
+          "mean_shap": -0.007009588303237468
+        },
+        {
+          "feature": "cat__product_name_right_GinZing Ultra-Hydrating Energy-Boosting Cream",
+          "mean_shap": -0.006993867956942088
+        },
+        {
+          "feature": "cat__product_name_GinZing Ultra-Hydrating Energy-Boosting Cream",
+          "mean_shap": -0.006993867956942088
+        },
+        {
+          "feature": "cat__eye_color_green",
+          "mean_shap": -0.006440911238554607
+        }
+      ]
+    },
+    "2": {
+      "top_positive_features": [
+        {
+          "feature": "num__word_len",
+          "mean_shap": 0.014422832707931143
+        },
+        {
+          "feature": "text__love",
+          "mean_shap": 0.009184063294052077
+        },
+        {
+          "feature": "text__amazing",
+          "mean_shap": 0.008703619533173005
+        },
+        {
+          "feature": "text__star",
+          "mean_shap": 0.008589810190684553
+        },
+        {
+          "feature": "num__exclamations",
+          "mean_shap": 0.00588008591968829
+        },
+        {
+          "feature": "text__time",
+          "mean_shap": 0.0056283308123961625
+        },
+        {
+          "feature": "cat__tertiary_category_Face Wash & Cleansers",
+          "mean_shap": 0.004674050328983993
+        },
+        {
+          "feature": "cat__product_name_Microneedling Dark Spot Brightening Dots",
+          "mean_shap": 0.004610060582642307
+        },
+        {
+          "feature": "cat__product_name_right_Microneedling Dark Spot Brightening Dots",
+          "mean_shap": 0.004610060582642307
+        },
+        {
+          "feature": "text__soak",
+          "mean_shap": 0.004388371543549334
+        }
+      ],
+      "top_negative_features": [
+        {
+          "feature": "num__char_len",
+          "mean_shap": -0.01262611544973345
+        },
+        {
+          "feature": "num__rating",
+          "mean_shap": -0.012009566278896643
+        },
+        {
+          "feature": "cat__secondary_category_Moisturizers",
+          "mean_shap": -0.010381273420045332
+        },
+        {
+          "feature": "num__avg_word_len",
+          "mean_shap": -0.008132291903757912
+        },
+        {
+          "feature": "num__reviews",
+          "mean_shap": -0.005331408794332068
+        },
+        {
+          "feature": "text__great",
+          "mean_shap": -0.004906339220429823
+        },
+        {
+          "feature": "num__total_neg_feedback_count",
+          "mean_shap": -0.0048800181341930055
+        },
+        {
+          "feature": "text__nice",
+          "mean_shap": -0.004657788578783654
+        },
+        {
+          "feature": "text__glow",
+          "mean_shap": -0.0038136074844177473
+        },
+        {
+          "feature": "cat__skin_type_dry",
+          "mean_shap": -0.0037703223420985075
+        }
+      ]
+    },
+    "3": {
+      "top_positive_features": [
+        {
+          "feature": "num__is_recommended",
+          "mean_shap": 0.018810961859869472
+        },
+        {
+          "feature": "num__rating",
+          "mean_shap": 0.018540031526987206
+        },
+        {
+          "feature": "cat__secondary_category_Moisturizers",
+          "mean_shap": 0.009736471049993414
+        },
+        {
+          "feature": "num__avg_word_len",
+          "mean_shap": 0.008833639887295708
+        },
+        {
+          "feature": "num__char_len",
+          "mean_shap": 0.008647851908470564
+        },
+        {
+          "feature": "num__reviews",
+          "mean_shap": 0.007723861729122228
+        },
+        {
+          "feature": "text__amazing hydration",
+          "mean_shap": 0.005947030920571449
+        },
+        {
+          "feature": "text__glow",
+          "mean_shap": 0.004680784975274029
+        },
+        {
+          "feature": "text__balm",
+          "mean_shap": 0.0038539356112169136
+        },
+        {
+          "feature": "text__nice",
+          "mean_shap": 0.003683313775642475
+        }
+      ],
+      "top_negative_features": [
+        {
+          "feature": "text__love",
+          "mean_shap": -0.010970267219281354
+        },
+        {
+          "feature": "num__word_len",
+          "mean_shap": -0.010421942480801846
+        },
+        {
+          "feature": "text__amazing",
+          "mean_shap": -0.010144338300111137
+        },
+        {
+          "feature": "text__star",
+          "mean_shap": -0.009948195031699147
+        },
+        {
+          "feature": "num__loves_count",
+          "mean_shap": -0.005742367845170943
+        },
+        {
+          "feature": "num__exclamations",
+          "mean_shap": -0.005700166821497529
+        },
+        {
+          "feature": "cat__tertiary_category_Moisturizers",
+          "mean_shap": -0.0056231778501125455
+        },
+        {
+          "feature": "text__كتير",
+          "mean_shap": -0.005449810227630997
+        },
+        {
+          "feature": "text__acne",
+          "mean_shap": -0.004291797813655352
+        },
+        {
+          "feature": "text__time",
+          "mean_shap": -0.0037803362891182237
+        }
+      ]
+    }
+  },
+  "misclassified_examples": [
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "high dimethicone cream give soft silky finish moisturize dry skin oily skin type work great makeup smell great"
+    },
+    {
+      "true_label": 3,
+      "predicted_label": 2,
+      "text_snippet": "freak love super hydrate actually job price point super nice compare glossy balm cute"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "solid product sensitive skin irritation positive additional affect skin compare serum"
+    },
+    {
+      "true_label": 3,
+      "predicted_label": 2,
+      "text_snippet": "product past week love take makeup oily combo acne prone skin break think actually help reduce acne tbh"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "see difference bottle order second hereditary dark circle life have baby month ago night sleep circle get bad look like give black eye different product achieve coverage happy way look keep regimen ta"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "definitely recommend product hydrate lip protect long aware difference think extremely enjoyable product sticky come applicator super helpful jar berry scent smell exactly like bubblegum honestly pref"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "product year time update formula tint personally like have contain tint normally use eye cream morning night like idea resemble makeup night morning nice sheer tint product improve formula thick go sm"
+    },
+    {
+      "true_label": 1,
+      "predicted_label": 2,
+      "text_snippet": "think honest feel like mask significant difference think nice theory like work sheet mask type product fan sheet mask biased overall think worth money"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "love product beware scented personally love scent product serum super luxurious leave skin feel soft luminous beautiful like moisturizer primer fence recommend try"
+    },
+    {
+      "true_label": 3,
+      "predicted_label": 2,
+      "text_snippet": "charcoal mask great like apply take nice hot shower pore open mask dry face minute make hard face feel product work face feel refresh receive product complimentary testing"
+    }
+  ]
+}

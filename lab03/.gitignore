@@ -5,9 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-
+*.png
 *.csv
-.md
 .env
 # Distribution / packaging
 .Python
@@ -140,3 +139,5 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *.DS_Store
+scripts/run_train_cv_sample.sh
+*.png

@@ -2,11 +2,17 @@ preprocess:
   raw_dir: data/raw
   reviews_pattern: reviews_*.csv
   products_filename: product_info.csv
-  columns_to_drop: 'Unnamed: 0,author_id'
+  config_path: preprocess_config.yaml
   output_path: data/preprocessed/preprocessed_reviews.csv
 
+text_prepare:
+  input_path: data/preprocessed/preprocessed_reviews.csv
+  output_path: data/preprocessed/preprocessed_reviews_text_clean.csv
+  language_model: en_core_web_sm
+  batch_size: 256
+
 split:
-  reviews_path: data/preprocessed/preprocessed_reviews.csv
+  reviews_path: data/preprocessed/preprocessed_reviews_text_clean.csv
   train_path: data/split/train_reviews.csv
   test_path: data/split/test_reviews.csv
   test_size: 0.2
@@ -16,8 +22,50 @@ split:
 train:
   train_path: data/split/train_reviews.csv
   test_path: data/split/test_reviews.csv
-  metrics_path: metrics/dummy_baseline_metrics.json
-  model_type: uniform_continuous
+  metrics_path: metrics/lab5_exp9_rf_all.json
+  model_name: random_forest
   model_strategy: most_frequent
+  feature_set: all
+  vectorizer_name: tfidf
+  random_state: 42
+  n_estimators: 300
   max_features: 20000
+  ngram_min: 1
   ngram_max: 2
+  feature_selection: none
+  dimension_reduction: none
+  select_k: 1000
+  svd_components: 300
+  cv_folds: 3
+  language_model: en_core_web_sm
+  sample_rows: 120000
+  mlflow_enabled: true
+  mlflow_tracking_uri: http://localhost:5001
+  mlflow_experiment_name: lab5-sentiment-main
+  mlflow_run_prefix: exp9-rf-all
+
+tune:
+  train_path: data/split/train_reviews.csv
+  test_path: data/split/test_reviews.csv
+  models_output_dir: data/models/tuned
+  metrics_path: metrics/lab6_tuning.json
+  plot_path: reports/lab6_tuning_comparison.png
+  search_methods: randomized_search,grid_search,halving_grid_search,halving_random_search
+  model_names: svm,random_forest,logistic_regression
+  cv_folds: 3
+  n_iter: 20
+  sample_rows: 10000
+  random_state: 42
+  n_jobs: -1
+  max_features: 20000
+  ngram_min: 1
+  ngram_max: 2
+  mlflow_tracking_uri: http://localhost:5001
+  mlflow_experiment_name: lab6-hyperparameter-tuning
+
+shap:
+  sample_rows_background: 200
+  sample_rows_explain: 500
+  n_misclassified: 10
+  top_n_features: 30
+  mlflow_experiment_name: lab6-shap-explanations

@@ -1,0 +1,315 @@
+{
+  "search_method": "halving_random_search",
+  "classes": {
+    "1": {
+      "top_positive_features": [
+        {
+          "feature": "num__char_len",
+          "mean_shap": 0.012770127660719827
+        },
+        {
+          "feature": "cat__hair_color_brown",
+          "mean_shap": 0.006198721366210556
+        },
+        {
+          "feature": "num__total_neg_feedback_count",
+          "mean_shap": 0.006191564554013375
+        },
+        {
+          "feature": "cat__secondary_category_Treatments",
+          "mean_shap": 0.005498972097378188
+        },
+        {
+          "feature": "cat__skin_type_combination",
+          "mean_shap": 0.005315118516474891
+        },
+        {
+          "feature": "cat__skin_tone_medium",
+          "mean_shap": 0.0036004276942514777
+        },
+        {
+          "feature": "text__love",
+          "mean_shap": 0.0035136785030154697
+        },
+        {
+          "feature": "text__great",
+          "mean_shap": 0.0033025535364196376
+        },
+        {
+          "feature": "text__lightweight",
+          "mean_shap": 0.0032460540209618247
+        },
+        {
+          "feature": "text__notice",
+          "mean_shap": 0.003227788787595801
+        }
+      ],
+      "top_negative_features": [
+        {
+          "feature": "num__is_recommended",
+          "mean_shap": -0.015939053188654868
+        },
+        {
+          "feature": "num__word_len",
+          "mean_shap": -0.013039548962538252
+        },
+        {
+          "feature": "num__rating",
+          "mean_shap": -0.011430825830400206
+        },
+        {
+          "feature": "cat__hair_color_blonde",
+          "mean_shap": -0.010385357991520062
+        },
+        {
+          "feature": "cat__secondary_category_Moisturizers",
+          "mean_shap": -0.009628586480206232
+        },
+        {
+          "feature": "cat__skin_type_dry",
+          "mean_shap": -0.006443434135985235
+        },
+        {
+          "feature": "cat__tertiary_category_Face Wash & Cleansers",
+          "mean_shap": -0.005496596333204854
+        },
+        {
+          "feature": "cat__product_name_right_GinZing Ultra-Hydrating Energy-Boosting Cream",
+          "mean_shap": -0.0040861426286006655
+        },
+        {
+          "feature": "cat__product_name_GinZing Ultra-Hydrating Energy-Boosting Cream",
+          "mean_shap": -0.0040861426286006655
+        },
+        {
+          "feature": "cat__eye_color_green",
+          "mean_shap": -0.004074324193866107
+        }
+      ]
+    },
+    "2": {
+      "top_positive_features": [
+        {
+          "feature": "num__word_len",
+          "mean_shap": 0.012604163677960675
+        },
+        {
+          "feature": "text__love",
+          "mean_shap": 0.009279713298426912
+        },
+        {
+          "feature": "text__star",
+          "mean_shap": 0.008824004553210528
+        },
+        {
+          "feature": "text__amazing",
+          "mean_shap": 0.007862349652580784
+        },
+        {
+          "feature": "num__exclamations",
+          "mean_shap": 0.0051491516936603855
+        },
+        {
+          "feature": "text__time",
+          "mean_shap": 0.003831319004198776
+        },
+        {
+          "feature": "text__job",
+          "mean_shap": 0.003470567979904011
+        },
+        {
+          "feature": "cat__tertiary_category_Face Wash & Cleansers",
+          "mean_shap": 0.0031340584169099227
+        },
+        {
+          "feature": "text__acne",
+          "mean_shap": 0.0030242749802363088
+        },
+        {
+          "feature": "text__wait",
+          "mean_shap": 0.0029976344840067937
+        }
+      ],
+      "top_negative_features": [
+        {
+          "feature": "num__char_len",
+          "mean_shap": -0.010559264271391122
+        },
+        {
+          "feature": "num__rating",
+          "mean_shap": -0.010107344735725226
+        },
+        {
+          "feature": "num__avg_word_len",
+          "mean_shap": -0.008043697975216845
+        },
+        {
+          "feature": "cat__secondary_category_Moisturizers",
+          "mean_shap": -0.006502075417923287
+        },
+        {
+          "feature": "num__total_neg_feedback_count",
+          "mean_shap": -0.0047923306312204405
+        },
+        {
+          "feature": "text__notice",
+          "mean_shap": -0.0035310582893159108
+        },
+        {
+          "feature": "cat__eye_color_green",
+          "mean_shap": -0.0033244251986978245
+        },
+        {
+          "feature": "cat__product_name_right_Advanced Night Repair Synchronized Multi-Recovery Complex Duo",
+          "mean_shap": -0.0033128877587609725
+        },
+        {
+          "feature": "cat__product_name_Advanced Night Repair Synchronized Multi-Recovery Complex Duo",
+          "mean_shap": -0.0033128877587609725
+        },
+        {
+          "feature": "text__nice",
+          "mean_shap": -0.003197958898072993
+        }
+      ]
+    },
+    "3": {
+      "top_positive_features": [
+        {
+          "feature": "num__rating",
+          "mean_shap": 0.017000492916926527
+        },
+        {
+          "feature": "num__is_recommended",
+          "mean_shap": 0.01621635736217262
+        },
+        {
+          "feature": "num__avg_word_len",
+          "mean_shap": 0.009566016642764715
+        },
+        {
+          "feature": "cat__secondary_category_Moisturizers",
+          "mean_shap": 0.006218763336261023
+        },
+        {
+          "feature": "num__char_len",
+          "mean_shap": 0.0056590661628747995
+        },
+        {
+          "feature": "num__reviews",
+          "mean_shap": 0.00466021993052066
+        },
+        {
+          "feature": "cat__eye_color_green",
+          "mean_shap": 0.0035788108485552473
+        },
+        {
+          "feature": "text__cream",
+          "mean_shap": 0.00324058485643159
+        },
+        {
+          "feature": "text__go",
+          "mean_shap": 0.003169369575149173
+        },
+        {
+          "feature": "text__glow",
+          "mean_shap": 0.003016845227205422
+        }
+      ],
+      "top_negative_features": [
+        {
+          "feature": "text__love",
+          "mean_shap": -0.010047458720446392
+        },
+        {
+          "feature": "text__star",
+          "mean_shap": -0.00944610874766179
+        },
+        {
+          "feature": "text__amazing",
+          "mean_shap": -0.008647047456623756
+        },
+        {
+          "feature": "num__word_len",
+          "mean_shap": -0.007634365384623229
+        },
+        {
+          "feature": "num__loves_count",
+          "mean_shap": -0.005289623624630622
+        },
+        {
+          "feature": "num__exclamations",
+          "mean_shap": -0.005033097610289986
+        },
+        {
+          "feature": "text__acne",
+          "mean_shap": -0.0031057000510803607
+        },
+        {
+          "feature": "num__has_exclamation",
+          "mean_shap": -0.0028801523118398504
+        },
+        {
+          "feature": "text__time",
+          "mean_shap": -0.002682241167650305
+        },
+        {
+          "feature": "text__prefer",
+          "mean_shap": -0.0025887594386633083
+        }
+      ]
+    }
+  },
+  "misclassified_examples": [
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "tatcha product u lux high end feel yr heavy undereye ceeam feel light u yr makeup right away reduce morning puffiness cancel f hose eye bag completely post product free complimentary test purpose"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "receive mini bottle balanced skin duo admittedly read product sale want try tatcha add basket surprised find exfoliant say super gentle feel amazing skin rough scratchy cleanse dry skin expect dry lea"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "love bad ingredient clean day cleanser great gentle face feel moisturize strip hyaluronic acid great wish watery love eye cream"
+    },
+    {
+      "true_label": 1,
+      "predicted_label": 3,
+      "text_snippet": "work go half bottle try repurchase previous expensive product try price half love brand review great recommend product price believe product work differently skin type"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "pricey worth money make skin look like glow inside"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "enjoy product smell absolutely delicious sensitive skin use aha frequently suffer hyperpigmentation skin leave breakout definitely notice help lighten week frequent use big drying sure hydrate use thi"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 1,
+      "text_snippet": "month notice change think break"
+    },
+    {
+      "true_label": 3,
+      "predicted_label": 2,
+      "text_snippet": "kind turn celebrity attach brand lot research buy totally live hype fairly strong fragrance application come actual ingredient product add perfume tell noticeable difference skin pore use repurchase"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 3,
+      "text_snippet": "smooth bright cause break day work young brother got influenster voxbox"
+    },
+    {
+      "true_label": 2,
+      "predicted_label": 1,
+      "text_snippet": "receive product exchange review twice daily month tan mixed race skin scar easily notice difference acne scar hyperpigmentation give month"
+    }
+  ]
+}

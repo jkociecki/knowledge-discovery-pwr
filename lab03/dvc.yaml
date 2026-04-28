@@ -5,15 +5,31 @@ stages:
       --raw-dir ${preprocess.raw_dir}
       --reviews-pattern "${preprocess.reviews_pattern}"
       --products-filename ${preprocess.products_filename}
-      --columns-to-drop "${preprocess.columns_to_drop}"
+      --preprocess-config ${preprocess.config_path}
       --output-path ${preprocess.output_path}
     deps:
       - scripts/preprocess.py
       - ${preprocess.raw_dir}
+      - ${preprocess.config_path}
     params:
       - preprocess
     outs:
       - ${preprocess.output_path}
+
+  prepare_text:
+    cmd: >-
+      uv run python scripts/prepare_text.py
+      --input-path ${text_prepare.input_path}
+      --output-path ${text_prepare.output_path}
+      --language-model ${text_prepare.language_model}
+      --batch-size ${text_prepare.batch_size}
+    deps:
+      - scripts/prepare_text.py
+      - ${text_prepare.input_path}
+    params:
+      - text_prepare
+    outs:
+      - ${text_prepare.output_path}
 
   split:
     cmd: >-
@@ -39,10 +55,26 @@ stages:
       --train-path ${train.train_path}
       --test-path ${train.test_path}
       --metrics-path ${train.metrics_path}
-      --model-type ${train.model_type}
+      --model-name ${train.model_name}
       --model-strategy ${train.model_strategy}
+      --feature-set ${train.feature_set}
+      --vectorizer-name ${train.vectorizer_name}
+      --random-state ${train.random_state}
+      --n-estimators ${train.n_estimators}
       --max-features ${train.max_features}
+      --ngram-min ${train.ngram_min}
       --ngram-max ${train.ngram_max}
+      --feature-selection ${train.feature_selection}
+      --dimension-reduction ${train.dimension_reduction}
+      --select-k ${train.select_k}
+      --svd-components ${train.svd_components}
+      --cv-folds ${train.cv_folds}
+      --language-model ${train.language_model}
+      --sample-rows ${train.sample_rows}
+      --mlflow-enabled
+      --mlflow-tracking-uri ${train.mlflow_tracking_uri}
+      --mlflow-experiment-name ${train.mlflow_experiment_name}
+      --mlflow-run-prefix ${train.mlflow_run_prefix}
     deps:
       - scripts/train_dummy_baseline.py
       - ${train.train_path}
@@ -51,4 +83,98 @@ stages:
       - train
     metrics:
       - ${train.metrics_path}:
+          cache: false
+
+  tune_hyperparams:
+    cmd: >-
+      uv run python scripts/tune_hyperparams.py
+      --train-path ${tune.train_path}
+      --test-path ${tune.test_path}
+      --models-output-dir ${tune.models_output_dir}
+      --metrics-path ${tune.metrics_path}
+      --plot-path ${tune.plot_path}
+      --search-methods ${tune.search_methods}
+      --model-names ${tune.model_names}
+      --cv-folds ${tune.cv_folds}
+      --n-iter ${tune.n_iter}
+      --sample-rows ${tune.sample_rows}
+      --random-state ${tune.random_state}
+      --n-jobs ${tune.n_jobs}
+      --max-features ${tune.max_features}
+      --ngram-min ${tune.ngram_min}
+      --ngram-max ${tune.ngram_max}
+      --mlflow-tracking-uri ${tune.mlflow_tracking_uri}
+      --mlflow-experiment-name ${tune.mlflow_experiment_name}
+    deps:
+      - scripts/tune_hyperparams.py
+      - scripts/train_dummy_baseline.py
+      - ${tune.train_path}
+      - ${tune.test_path}
+    params:
+      - tune
+    metrics:
+      - ${tune.metrics_path}:
+          cache: false
+    outs:
+      - ${tune.models_output_dir}:
+          cache: true
+      - ${tune.plot_path}:
+          cache: false
+
+  explain_shap:
+    foreach:
+      - randomized_search
+      - grid_search
+      - halving_grid_search
+      - halving_random_search
+    do:
+      cmd: >-
+        uv run python scripts/explain_shap.py
+        --model-path ${tune.models_output_dir}/${item}_best.pkl
+        --search-method ${item}
+        --train-path ${tune.train_path}
+        --test-path ${tune.test_path}
+        --output-dir reports/shap/${item}
+        --metrics-path metrics/lab6_shap_${item}.json
+        --sample-rows-background ${shap.sample_rows_background}
+        --sample-rows-explain ${shap.sample_rows_explain}
+        --n-misclassified ${shap.n_misclassified}
+        --top-n-features ${shap.top_n_features}
+        --random-state ${tune.random_state}
+        --mlflow-tracking-uri ${tune.mlflow_tracking_uri}
+        --mlflow-experiment-name ${shap.mlflow_experiment_name}
+      deps:
+        - scripts/explain_shap.py
+        - ${tune.models_output_dir}/${item}_best.pkl
+        - ${tune.train_path}
+        - ${tune.test_path}
+      params:
+        - shap
+        - tune.random_state
+        - tune.train_path
+        - tune.test_path
+        - tune.models_output_dir
+        - tune.mlflow_tracking_uri
+      metrics:
+        - metrics/lab6_shap_${item}.json:
+            cache: false
+      outs:
+        - reports/shap/${item}:
+            cache: false
+
+  execute_preprocessed_notebook:
+    cmd: >-
+      mkdir -p data/notebooks
+      && uv run jupyter nbconvert
+      --to notebook
+      --execute
+      --ExecutePreprocessor.timeout=1200
+      --output preprocessed_executed.ipynb
+      --output-dir data/notebooks
+      notebooks/preprocessed.ipynb
+    deps:
+      - notebooks/preprocessed.ipynb
+      - ${preprocess.output_path}
+    outs:
+      - data/notebooks/preprocessed_executed.ipynb:
           cache: false

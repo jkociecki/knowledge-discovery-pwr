@@ -5,11 +5,25 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "boto3>=1.42.70",
     "dvc>=3.67.0",
     "dvc-s3>=3.3.0",
+    "gensim>=4.3.3",
     "jupyterlab>=4.5.6",
-    "pandas>=3.0.1",
+    "matplotlib>=3.10.8",
+    "mlflow>=3.5.0",
+    "pandas>=2.2,<3",
     "polars>=1.39.3",
+    "pyarrow>=16,<23",
+    "pyyaml>=6.0.3",
     "scikit-learn>=1.8.0",
+    "shap>=0.46",
+    "spacy>=3.8.0",
     "typer>=0.24.1",
+]
+
+[dependency-groups]
+dev = [
+    "isort>=8.0.1",
+    "seaborn>=0.13.2",
 ]

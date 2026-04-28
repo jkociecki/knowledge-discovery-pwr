@@ -1,0 +1,6 @@
+{
+  "search_method": "halving_random_search",
+  "n_features": 11302,
+  "n_explained_samples": 500,
+  "n_misclassified_analyzed": 10
+}

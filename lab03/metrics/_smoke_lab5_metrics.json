@@ -1,0 +1,124 @@
+{
+  "target_column": "LABEL-simple_rating",
+  "sample_rows": 2000,
+  "rows_used": 2000,
+  "test_rows": 184968,
+  "cv_folds": 2,
+  "mlflow": {
+    "enabled": false,
+    "tracking_uri": "http://host.docker.internal:5001",
+    "experiment_name": "lab5-sentiment"
+  },
+  "feature_columns": {
+    "text": [
+      "review_text"
+    ],
+    "numeric": [
+      "is_recommended",
+      "total_feedback_count",
+      "total_neg_feedback_count",
+      "total_pos_feedback_count",
+      "price_usd",
+      "brand_id",
+      "loves_count",
+      "rating",
+      "reviews",
+      "price_usd_right",
+      "limited_edition",
+      "new",
+      "online_only",
+      "out_of_stock",
+      "sephora_exclusive",
+      "child_count",
+      "char_len",
+      "word_len",
+      "avg_word_len",
+      "special_ratio",
+      "digit_ratio",
+      "exclamations",
+      "has_exclamation"
+    ],
+    "categorical": [
+      "skin_tone",
+      "eye_color",
+      "skin_type",
+      "hair_color",
+      "product_name",
+      "brand_name",
+      "product_name_right",
+      "brand_name_right",
+      "variation_type",
+      "secondary_category",
+      "tertiary_category"
+    ]
+  },
+  "experiments": {
+    "text_only": {
+      "dummy": {
+        "train_cv": {
+          "accuracy": {
+            "mean": 0.633,
+            "std": 0.0,
+            "fold_scores": [
+              0.633,
+              0.633
+            ]
+          },
+          "f1_macro": {
+            "mean": 0.258420085731782,
+            "std": 0.0,
+            "fold_scores": [
+              0.258420085731782,
+              0.258420085731782
+            ]
+          },
+          "f1_weighted": {
+            "mean": 0.490739742804654,
+            "std": 0.0,
+            "fold_scores": [
+              0.490739742804654,
+              0.490739742804654
+            ]
+          }
+        },
+        "validation_cv": {
+          "accuracy": {
+            "mean": 0.633,
+            "std": 0.0,
+            "fold_scores": [
+              0.633,
+              0.633
+            ]
+          },
+          "f1_macro": {
+            "mean": 0.258420085731782,
+            "std": 0.0,
+            "fold_scores": [
+              0.258420085731782,
+              0.258420085731782
+            ]
+          },
+          "f1_weighted": {
+            "mean": 0.490739742804654,
+            "std": 0.0,
+            "fold_scores": [
+              0.490739742804654,
+              0.490739742804654
+            ]
+          }
+        },
+        "test": {
+          "accuracy": 0.6351044504995459,
+          "f1_macro": 0.25894551682636674,
+          "f1_weighted": 0.4933723505199917
+        },
+        "artifacts": {
+          "cm_train_cv": "metrics/plots_smoke/text_only/dummy/cm_train_cv.png",
+          "cm_validation_cv": "metrics/plots_smoke/text_only/dummy/cm_validation_cv.png",
+          "cm_train_full": "metrics/plots_smoke/text_only/dummy/cm_train_full.png",
+          "cm_test": "metrics/plots_smoke/text_only/dummy/cm_test.png"
+        }
+      }
+    }
+  }
+}

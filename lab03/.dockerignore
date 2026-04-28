@@ -6,11 +6,9 @@ __pycache__/
 *.pyd
 .ipynb_checkpoints/
 
-# Big data / artifacts should not be sent to build context
 data/
 metrics/
 infra/minio_data/
 
-# DVC and local tooling caches
 .dvc/cache/
 .dvc/tmp/

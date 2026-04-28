@@ -1,8 +1,10 @@
 from pathlib import Path
 
 import polars as pl
-from sklearn.model_selection import train_test_split
 import typer
+from sklearn.model_selection import train_test_split
+
+TARGET_COLUMN = "LABEL-simple_rating"
 
 
 def _str_to_bool(value: str) -> bool:
@@ -20,17 +22,25 @@ def split_data(
     reviews_df = pl.read_csv(
         reviews_path,
         schema_overrides={
-            "LABEL-simple_rating": pl.Int32,
+            TARGET_COLUMN: pl.Int32,
         },
         truncate_ragged_lines=True,
         ignore_errors=True,
     )
 
+    initial_rows = reviews_df.height
+    reviews_df = reviews_df.drop_nulls([TARGET_COLUMN])
+    dropped_rows = initial_rows - reviews_df.height
+    if dropped_rows > 0:
+        print(
+            f"Dropped {dropped_rows} rows with missing {TARGET_COLUMN} before splitting."
+        )
+
     reviews_df = reviews_df.with_row_index("row_id")
 
     stratify_labels = None
     if stratify:
-        stratify_labels = reviews_df["LABEL-simple_rating"].to_list()
+        stratify_labels = reviews_df[TARGET_COLUMN].to_list()
 
     train_ids, test_ids = train_test_split(
         reviews_df["row_id"].to_list(),

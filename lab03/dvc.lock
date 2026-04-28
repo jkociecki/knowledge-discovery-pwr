@@ -1,50 +1,55 @@
 schema: '2.0'
 stages:
   preprocess:
-    cmd: 'uv run python scripts/preprocess.py --raw-dir data/raw --reviews-pattern
-      "reviews_*.csv" --products-filename product_info.csv --columns-to-drop "Unnamed:
-      0,author_id" --output-path data/preprocessed/preprocessed_reviews.csv'
+    cmd: uv run python scripts/preprocess.py --raw-dir data/raw 
+      --reviews-pattern "reviews_*.csv" --products-filename product_info.csv 
+      --preprocess-config preprocess_config.yaml --output-path 
+      data/preprocessed/preprocessed_reviews.csv
     deps:
     - path: data/raw
       hash: md5
-      md5: 81faee1525f3a1b2e7ea6e2affaf7673.dir
-      size: 528683011
+      md5: 36a4535771c725dab8fbb30415d85648.dir
+      size: 528683001
       nfiles: 6
+    - path: preprocess_config.yaml
+      hash: md5
+      md5: c42274166fe0b2fa6f904c1bd0cd5192
+      size: 442
     - path: scripts/preprocess.py
       hash: md5
-      md5: bdb1783c2a6cad1c8b409469fcb97999
-      size: 6279
+      md5: dad938d47e94abdb5f648052f05414db
+      size: 9864
     params:
       params.yaml:
         preprocess:
           raw_dir: data/raw
           reviews_pattern: reviews_*.csv
           products_filename: product_info.csv
-          columns_to_drop: 'Unnamed: 0,author_id'
+          config_path: preprocess_config.yaml
           output_path: data/preprocessed/preprocessed_reviews.csv
     outs:
     - path: data/preprocessed/preprocessed_reviews.csv
       hash: md5
-      md5: 651783646dbdc3d37f82b1d25eec624a
-      size: 806381856
+      md5: cc96d0e77c9dffb7506f43d077c49e6d
+      size: 574052445
   split:
     cmd: uv run python scripts/train_test_split.py --reviews-path 
-      data/preprocessed/preprocessed_reviews.csv --train-path 
+      data/preprocessed/preprocessed_reviews_text_clean.csv --train-path 
       data/split/train_reviews.csv --test-path data/split/test_reviews.csv 
       --test-size 0.2 --random-state 42 --stratify false
     deps:
-    - path: data/preprocessed/preprocessed_reviews.csv
+    - path: data/preprocessed/preprocessed_reviews_text_clean.csv
       hash: md5
-      md5: 651783646dbdc3d37f82b1d25eec624a
-      size: 806381856
+      md5: ec8a9d73f958b299358a57f10a33476d
+      size: 725856173
     - path: scripts/train_test_split.py
       hash: md5
-      md5: 54f2429eec2a99b045972a9e7be3133b
-      size: 2179
+      md5: d5bf20a931224bf6fc286a5c76bd7bca
+      size: 2488
     params:
       params.yaml:
         split:
-          reviews_path: data/preprocessed/preprocessed_reviews.csv
+          reviews_path: data/preprocessed/preprocessed_reviews_text_clean.csv
           train_path: data/split/train_reviews.csv
           test_path: data/split/test_reviews.csv
           test_size: 0.2
@@ -53,43 +58,369 @@ stages:
     outs:
     - path: data/split/test_reviews.csv
       hash: md5
-      md5: 41762778e727cb79c9d1de8569e4422f
-      size: 161139294
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
     - path: data/split/train_reviews.csv
       hash: md5
-      md5: e537397f94892381531f6f08daae4841
-      size: 645243161
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
   train_baseline:
     cmd: uv run python scripts/train_dummy_baseline.py --train-path 
       data/split/train_reviews.csv --test-path data/split/test_reviews.csv 
-      --metrics-path metrics/dummy_baseline_metrics.json --model-type 
-      uniform_continuous --model-strategy most_frequent --max-features 20000 
-      --ngram-max 2
+      --metrics-path metrics/lab5_exp9_rf_all.json --model-name random_forest 
+      --model-strategy most_frequent --feature-set all --vectorizer-name tfidf 
+      --random-state 42 --n-estimators 300 --max-features 20000 --ngram-min 1 
+      --ngram-max 2 --feature-selection none --dimension-reduction none 
+      --select-k 1000 --svd-components 300 --cv-folds 3 --language-model 
+      en_core_web_sm --sample-rows 120000 --mlflow-enabled --mlflow-tracking-uri
+      http://localhost:5001 --mlflow-experiment-name lab5-sentiment-main 
+      --mlflow-run-prefix exp9-rf-all
     deps:
     - path: data/split/test_reviews.csv
       hash: md5
-      md5: 41762778e727cb79c9d1de8569e4422f
-      size: 161139294
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
     - path: data/split/train_reviews.csv
       hash: md5
-      md5: e537397f94892381531f6f08daae4841
-      size: 645243161
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
     - path: scripts/train_dummy_baseline.py
       hash: md5
-      md5: 6bd22dee1b3010a0a73d02240681851d
-      size: 4397
+      md5: 5e2c08edc1b120fbfb7cc05149e22a63
+      size: 28521
     params:
       params.yaml:
         train:
           train_path: data/split/train_reviews.csv
           test_path: data/split/test_reviews.csv
-          metrics_path: metrics/dummy_baseline_metrics.json
-          model_type: uniform_continuous
+          metrics_path: metrics/lab5_exp9_rf_all.json
+          model_name: random_forest
           model_strategy: most_frequent
+          feature_set: all
+          vectorizer_name: tfidf
+          random_state: 42
+          n_estimators: 300
           max_features: 20000
+          ngram_min: 1
           ngram_max: 2
+          feature_selection: none
+          dimension_reduction: none
+          select_k: 1000
+          svd_components: 300
+          cv_folds: 3
+          language_model: en_core_web_sm
+          sample_rows: 120000
+          mlflow_enabled: true
+          mlflow_tracking_uri: http://localhost:5001
+          mlflow_experiment_name: lab5-sentiment-main
+          mlflow_run_prefix: exp9-rf-all
     outs:
-    - path: metrics/dummy_baseline_metrics.json
+    - path: metrics/lab5_exp9_rf_all.json
       hash: md5
-      md5: d647cf56249bfb085ce521c62638434e
-      size: 276
+      md5: 0acec2755595ca999c4bf367edd92978
+      size: 3055
+  execute_preprocessed_notebook:
+    cmd: mkdir -p data/notebooks && uv run jupyter nbconvert --to notebook 
+      --execute --ExecutePreprocessor.timeout=1200 --output 
+      preprocessed_executed.ipynb --output-dir data/notebooks 
+      notebooks/preprocessed.ipynb
+    deps:
+    - path: data/preprocessed/preprocessed_reviews.csv
+      hash: md5
+      md5: ce4cc183c52ccdc57e96c94a6201e3a2
+      size: 574052445
+    - path: notebooks/preprocessed.ipynb
+      hash: md5
+      md5: 165221a3cc1742c7085d3e04f2ab7389
+      size: 16311
+    outs:
+    - path: data/notebooks/preprocessed_executed.ipynb
+      hash: md5
+      md5: cab6905c8251074c8e5539ec71459891
+      size: 695641
+  prepare_text:
+    cmd: uv run python scripts/prepare_text.py --input-path 
+      data/preprocessed/preprocessed_reviews.csv --output-path 
+      data/preprocessed/preprocessed_reviews_text_clean.csv --language-model 
+      en_core_web_sm --batch-size 256
+    deps:
+    - path: data/preprocessed/preprocessed_reviews.csv
+      hash: md5
+      md5: cc96d0e77c9dffb7506f43d077c49e6d
+      size: 574052445
+    - path: scripts/prepare_text.py
+      hash: md5
+      md5: 394cb2574c666d79e5f6aec840481104
+      size: 2831
+    params:
+      params.yaml:
+        text_prepare:
+          input_path: data/preprocessed/preprocessed_reviews.csv
+          output_path: data/preprocessed/preprocessed_reviews_text_clean.csv
+          language_model: en_core_web_sm
+          batch_size: 256
+    outs:
+    - path: data/preprocessed/preprocessed_reviews_text_clean.csv
+      hash: md5
+      md5: ec8a9d73f958b299358a57f10a33476d
+      size: 725856173
+  tune_hyperparams:
+    cmd: uv run python scripts/tune_hyperparams.py --train-path 
+      data/split/train_reviews.csv --test-path data/split/test_reviews.csv 
+      --models-output-dir data/models/tuned --metrics-path 
+      metrics/lab6_tuning.json --plot-path reports/lab6_tuning_comparison.png 
+      --search-methods 
+      randomized_search,grid_search,halving_grid_search,halving_random_search 
+      --model-names svm,random_forest,logistic_regression --cv-folds 3 --n-iter 
+      20 --sample-rows 10000 --random-state 42 --n-jobs -1 --max-features 20000 
+      --ngram-min 1 --ngram-max 2 --mlflow-tracking-uri http://localhost:5001 
+      --mlflow-experiment-name lab6-hyperparameter-tuning
+    deps:
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
+    - path: scripts/train_dummy_baseline.py
+      hash: md5
+      md5: 5e2c08edc1b120fbfb7cc05149e22a63
+      size: 28521
+    - path: scripts/tune_hyperparams.py
+      hash: md5
+      md5: 96bc0786d9bdc2ce2d89410a0c309a21
+      size: 19480
+    params:
+      params.yaml:
+        tune:
+          train_path: data/split/train_reviews.csv
+          test_path: data/split/test_reviews.csv
+          models_output_dir: data/models/tuned
+          metrics_path: metrics/lab6_tuning.json
+          plot_path: reports/lab6_tuning_comparison.png
+          search_methods: 
+            randomized_search,grid_search,halving_grid_search,halving_random_search
+          model_names: svm,random_forest,logistic_regression
+          cv_folds: 3
+          n_iter: 20
+          sample_rows: 10000
+          random_state: 42
+          n_jobs: -1
+          max_features: 20000
+          ngram_min: 1
+          ngram_max: 2
+          mlflow_tracking_uri: http://localhost:5001
+          mlflow_experiment_name: lab6-hyperparameter-tuning
+    outs:
+    - path: data/models/tuned
+      hash: md5
+      md5: 4e09a867131af239cdc67d3003ced13b.dir
+      size: 29052032
+      nfiles: 7
+    - path: metrics/lab6_tuning.json
+      hash: md5
+      md5: dea1cc9897dc389c1d98d279dea71a9f
+      size: 3107
+    - path: reports/lab6_tuning_comparison.png
+      hash: md5
+      md5: a26eba9a22febf054732715383bf460a
+      size: 194700
+  explain_shap@randomized_search:
+    cmd: uv run python scripts/explain_shap.py --model-path 
+      data/models/tuned/randomized_search_best.pkl --search-method 
+      randomized_search --train-path data/split/train_reviews.csv --test-path 
+      data/split/test_reviews.csv --output-dir reports/shap/randomized_search 
+      --metrics-path metrics/lab6_shap_randomized_search.json 
+      --sample-rows-background 200 --sample-rows-explain 500 --n-misclassified 
+      10 --top-n-features 30 --random-state 42 --mlflow-tracking-uri 
+      http://localhost:5001 --mlflow-experiment-name lab6-shap-explanations
+    deps:
+    - path: data/models/tuned/randomized_search_best.pkl
+      hash: md5
+      md5: 48ee89239188e590f54e206356d7ad83
+      size: 1517623
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
+    - path: scripts/explain_shap.py
+      hash: md5
+      md5: 00c6f7dc736b242486dd7fd306675e3d
+      size: 15612
+    params:
+      params.yaml:
+        shap:
+          sample_rows_background: 200
+          sample_rows_explain: 500
+          n_misclassified: 10
+          top_n_features: 30
+          mlflow_experiment_name: lab6-shap-explanations
+        tune.mlflow_tracking_uri: http://localhost:5001
+        tune.models_output_dir: data/models/tuned
+        tune.random_state: 42
+        tune.test_path: data/split/test_reviews.csv
+        tune.train_path: data/split/train_reviews.csv
+    outs:
+    - path: metrics/lab6_shap_randomized_search.json
+      hash: md5
+      md5: 32fd06cfac7115c80563bc9b0ce00e2c
+      size: 129
+    - path: reports/shap/randomized_search
+      hash: md5
+      md5: 2934014c5d41932894250f5c628ca9df.dir
+      size: 738539
+      nfiles: 10
+  explain_shap@grid_search:
+    cmd: uv run python scripts/explain_shap.py --model-path 
+      data/models/tuned/grid_search_best.pkl --search-method grid_search 
+      --train-path data/split/train_reviews.csv --test-path 
+      data/split/test_reviews.csv --output-dir reports/shap/grid_search 
+      --metrics-path metrics/lab6_shap_grid_search.json --sample-rows-background
+      200 --sample-rows-explain 500 --n-misclassified 10 --top-n-features 30 
+      --random-state 42 --mlflow-tracking-uri http://localhost:5001 
+      --mlflow-experiment-name lab6-shap-explanations
+    deps:
+    - path: data/models/tuned/grid_search_best.pkl
+      hash: md5
+      md5: fcabdfdaf167185a8150a476d5bf666e
+      size: 1517623
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
+    - path: scripts/explain_shap.py
+      hash: md5
+      md5: 00c6f7dc736b242486dd7fd306675e3d
+      size: 15612
+    params:
+      params.yaml:
+        shap:
+          sample_rows_background: 200
+          sample_rows_explain: 500
+          n_misclassified: 10
+          top_n_features: 30
+          mlflow_experiment_name: lab6-shap-explanations
+        tune.mlflow_tracking_uri: http://localhost:5001
+        tune.models_output_dir: data/models/tuned
+        tune.random_state: 42
+        tune.test_path: data/split/test_reviews.csv
+        tune.train_path: data/split/train_reviews.csv
+    outs:
+    - path: metrics/lab6_shap_grid_search.json
+      hash: md5
+      md5: ceeebb7a6102bdb093863e852d02e3d7
+      size: 123
+    - path: reports/shap/grid_search
+      hash: md5
+      md5: 7bf75a0ee6a57a0cb5c3b295799262bb.dir
+      size: 752944
+      nfiles: 10
+  explain_shap@halving_grid_search:
+    cmd: uv run python scripts/explain_shap.py --model-path 
+      data/models/tuned/halving_grid_search_best.pkl --search-method 
+      halving_grid_search --train-path data/split/train_reviews.csv --test-path 
+      data/split/test_reviews.csv --output-dir reports/shap/halving_grid_search 
+      --metrics-path metrics/lab6_shap_halving_grid_search.json 
+      --sample-rows-background 200 --sample-rows-explain 500 --n-misclassified 
+      10 --top-n-features 30 --random-state 42 --mlflow-tracking-uri 
+      http://localhost:5001 --mlflow-experiment-name lab6-shap-explanations
+    deps:
+    - path: data/models/tuned/halving_grid_search_best.pkl
+      hash: md5
+      md5: fb9b3f497a1d9203288a4ce3fea5dca1
+      size: 704599
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
+    - path: scripts/explain_shap.py
+      hash: md5
+      md5: 00c6f7dc736b242486dd7fd306675e3d
+      size: 15612
+    params:
+      params.yaml:
+        shap:
+          sample_rows_background: 200
+          sample_rows_explain: 500
+          n_misclassified: 10
+          top_n_features: 30
+          mlflow_experiment_name: lab6-shap-explanations
+        tune.mlflow_tracking_uri: http://localhost:5001
+        tune.models_output_dir: data/models/tuned
+        tune.random_state: 42
+        tune.test_path: data/split/test_reviews.csv
+        tune.train_path: data/split/train_reviews.csv
+    outs:
+    - path: metrics/lab6_shap_halving_grid_search.json
+      hash: md5
+      md5: 278d392b039a1eca737df7ed2d690f5b
+      size: 131
+    - path: reports/shap/halving_grid_search
+      hash: md5
+      md5: 4286224a4659bc41599ff85578d2e069.dir
+      size: 750138
+      nfiles: 10
+  explain_shap@halving_random_search:
+    cmd: uv run python scripts/explain_shap.py --model-path 
+      data/models/tuned/halving_random_search_best.pkl --search-method 
+      halving_random_search --train-path data/split/train_reviews.csv 
+      --test-path data/split/test_reviews.csv --output-dir 
+      reports/shap/halving_random_search --metrics-path 
+      metrics/lab6_shap_halving_random_search.json --sample-rows-background 200 
+      --sample-rows-explain 500 --n-misclassified 10 --top-n-features 30 
+      --random-state 42 --mlflow-tracking-uri http://localhost:5001 
+      --mlflow-experiment-name lab6-shap-explanations
+    deps:
+    - path: data/models/tuned/halving_random_search_best.pkl
+      hash: md5
+      md5: fb9b3f497a1d9203288a4ce3fea5dca1
+      size: 704599
+    - path: data/split/test_reviews.csv
+      hash: md5
+      md5: bcdc89991bb83026917a6d2f56fe017f
+      size: 144942517
+    - path: data/split/train_reviews.csv
+      hash: md5
+      md5: 1be1cc69fdd6b99927d2a96471d6244a
+      size: 580914168
+    - path: scripts/explain_shap.py
+      hash: md5
+      md5: 00c6f7dc736b242486dd7fd306675e3d
+      size: 15612
+    params:
+      params.yaml:
+        shap:
+          sample_rows_background: 200
+          sample_rows_explain: 500
+          n_misclassified: 10
+          top_n_features: 30
+          mlflow_experiment_name: lab6-shap-explanations
+        tune.mlflow_tracking_uri: http://localhost:5001
+        tune.models_output_dir: data/models/tuned
+        tune.random_state: 42
+        tune.test_path: data/split/test_reviews.csv
+        tune.train_path: data/split/train_reviews.csv
+    outs:
+    - path: metrics/lab6_shap_halving_random_search.json
+      hash: md5
+      md5: 05fbe55e0ea738c755adb8e3c895b55d
+      size: 133
+    - path: reports/shap/halving_random_search
+      hash: md5
+      md5: f08cb8b48c5214552f9f7356b400e526.dir
+      size: 751760
+      nfiles: 10
